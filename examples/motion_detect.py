@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 print("""This example will detect motion using the accelerometer.
 
 Press Ctrl+C to exit.
@@ -18,9 +20,9 @@ try:
         z = sum(readings) / len(readings)
         if last_z > 0 and abs(z-last_z) > threshold:
             print("Motion Detected!!!")
-            leds.on
+            leds.on()
         last_z = z
         time.sleep(0.01)
-        leds.off
+        leds.off()
 except KeyboardInterrupt:
     pass
