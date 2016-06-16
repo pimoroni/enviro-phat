@@ -18,9 +18,9 @@ try:
         z = sum(readings) / len(readings)
         if last_z > 0 and abs(z-last_z) > threshold:
             print("Motion Detected!!!")
-            leds(1)
+            leds.on
         last_z = z
         time.sleep(0.01)
-        leds(0)
+        leds.off
 except KeyboardInterrupt:
     pass
