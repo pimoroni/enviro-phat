@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from envirophat import light, motion, weather, analog, leds
 import time
 

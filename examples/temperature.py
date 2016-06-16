@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 print("""This example will detect motion using the accelerometer.
 
 Press Ctrl+C to exit.
@@ -18,9 +20,9 @@ try:
 
         print("{} degrees celcius".format(temperature))
         if temperature > threshold:
-            leds(1)
+            leds.on()
         else:
-            leds(0)
+            leds.off()
 
         time.sleep(0.1)
 

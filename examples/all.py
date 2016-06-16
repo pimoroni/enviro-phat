@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from envirophat import light, weather, motion, analog
 import time
 import sys
