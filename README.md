@@ -11,6 +11,18 @@ Enviro pHAT includes:
 * A 5v power supply pin for powering your sensors, which you can regulate or divide to 3v if needed
 * Two LEDs connected to GPIO #4 for illuminating objects over the colour sensor
 
+# Installing
+
+We've created a super-easy installation script that will install all pre-requisites and get your Enviro pHAT up and running in a jiffy. To run it fire up Terminal which you'll find in Menu -> Accessories -> Terminal on your Raspberry Pi desktop like so:
+
+![Finding the terminal](terminal.jpg)
+
+In the new terminal window type the following and follow the instructions:
+
+```bash
+curl -sS https://get.pimoroni.com/envirophat | bash
+```
+
 # Usage
 
 You can import one or more devices from the Enviro pHAT library, which has:
