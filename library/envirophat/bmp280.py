@@ -147,7 +147,7 @@ class bmp280:
         return self._pressure
 
     def altitude(self, qnh=QNH):
-        return 44330.0 * (1.0 - pow(self.get_pressure() / (qnh*100), (1.0/5.255))) # Calculate altitute from pressure & qnh
+        return 44330.0 * (1.0 - pow(self.pressure() / (qnh*100), (1.0/5.255))) # Calculate altitute from pressure & qnh
 
     def update(self):
         raw_temp_msb=self.read_byte(REGISTER_TEMPDATA_MSB) # read raw temperature msb
