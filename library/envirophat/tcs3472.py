@@ -22,6 +22,11 @@ REG_ENABLE_WAIT = 1 << 3
 REG_ENABLE_RGBC = 1 << 1
 REG_ENABLE_POWER = 1
 
+CH_RED = 0
+CH_GREEN = 1
+CH_BLUE = 2
+CH_CLEAR = 3
+
 class tcs3472:
     def __init__(self, i2c_bus=None, addr=ADDR):
         self.addr = addr
@@ -45,13 +50,16 @@ class tcs3472:
 
     def scaled(self):
         rgbc = self.raw()
-        return tuple([float(x) / rgbc[3] for x in rgbc])
+        if rgbc[CH_CLEAR] > 0:
+            return tuple([float(x) / rgbc[CH_CLEAR] for x in rgbc])
+
+        return 0
 
     def rgb(self):
-        return tuple([int(x * 255) for x in self.scaled()][:3])
+        return tuple([int(x * 255) for x in self.scaled()][:CH_CLEAR])
 
     def light(self):
-        return self.raw()[3]
+        return self.raw()[CH_CLEAR]
 
     def valid(self):
         return (self.i2c_bus.read_byte_data(ADDR, REG_STATUS) & 1) > 0
