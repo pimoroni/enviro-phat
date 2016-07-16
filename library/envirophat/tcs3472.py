@@ -53,7 +53,7 @@ class tcs3472:
         if rgbc[CH_CLEAR] > 0:
             return tuple([float(x) / rgbc[CH_CLEAR] for x in rgbc])
 
-        return 0
+        return (0,0,0)
 
     def rgb(self):
         return tuple([int(x * 255) for x in self.scaled()][:CH_CLEAR])
