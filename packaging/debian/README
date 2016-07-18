@@ -1,0 +1,12 @@
+README
+
+Enviro pHAT is an affordable mix of sensors ideal for monitoring server rooms or anything you might want to observe. It also includes a 4-channel ADC, for adding sensors of your own.
+
+Learn more: https://shop.pimoroni.com/products/enviro-phat
+For examples run: `curl -sS get.pimoroni.com/envirophat | bash`
+
+IMPORTANT
+
+Enviro pHAT requires i2c.
+To enable run `curl get.pimoroni.com/i2c | bash`
+or use raspi-config and reboot your Raspberry Pi.
