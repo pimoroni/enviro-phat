@@ -1,8 +1,19 @@
 Changelog
 ---------
 
-0.0.3 - Python3 fix. Thanks Richard Hayler
+0.0.4
 
-0.0.2 - Inevitable fail!
+* Tidy up of read functions in bmp280
+* Fixed incorrect call to pressure method
 
-0.0.1 - Initial release
+0.0.3
+
+* Python3 fix. Thanks Richard Hayler
+
+0.0.2
+
+* Bug fixes
+
+0.0.1
+
+* Initial release
