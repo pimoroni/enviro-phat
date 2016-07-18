@@ -10,6 +10,13 @@ eggs/
 *.egg-info/
 .installed.cfg
 *.egg
+*.deb
+*.dsc
+*.build
+*.changes
+*.orig.*
+packaging/*tar.xz
+library/debian/
 testing/
 MANIFEST
 .idea
