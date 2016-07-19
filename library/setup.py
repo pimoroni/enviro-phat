@@ -37,18 +37,19 @@ classifiers = ['Development Status :: 5 - Production/Stable',
                'Topic :: Software Development',
                'Topic :: System :: Hardware']
 
-setup(name		= 'envirophat',
-	version		= '0.0.4',
-	author		= 'Philip Howard',
-	author_email	= 'phil@pimoroni.com',
-	description	= 'Enviro pHAT Driver',
-	long_description= open('README.txt').read() + open('CHANGELOG.txt').read(),
-	license		= 'MIT',
-	keywords	= 'Raspberry Pi IoT Weather',
-	url		= 'http://www.pimoroni.com',
-	classifiers	= classifiers,
-	py_modules	= [],
-	packages	= ['envirophat'],
-	include_package_data = True,
-	install_requires= []
+setup(
+    name            = 'envirophat',
+    version         = '0.0.4',
+    author          = 'Philip Howard',
+    author_email    = 'phil@pimoroni.com',
+    description     = 'Enviro pHAT Driver',
+    long_description= open('README.txt').read() + open('CHANGELOG.txt').read(),
+    license         = 'MIT',
+    keywords        = 'Raspberry Pi IoT Weather',
+    url             = 'http://www.pimoroni.com',
+    classifiers     = classifiers,
+    py_modules      = [],
+    packages        = ['envirophat'],
+    include_package_data = True,
+    install_requires= []
 )
