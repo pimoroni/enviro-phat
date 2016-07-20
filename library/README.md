@@ -1,1 +1,2 @@
-Enviro pHAT
+#Enviro pHAT Pure Python Library
+

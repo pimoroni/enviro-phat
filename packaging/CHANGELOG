@@ -1,0 +1,24 @@
+envirophat (0.0.4) UNRELEASED; urgency=low
+
+  * Tidy up of read functions in bmp280
+  * Fixed incorrect call to pressure method
+
+ -- Phil Howard <phil@pimoroni.com>  Wed, 6 Jul 2016 00:00:00 +0000
+
+envirophat (0.0.3) UNRELEASED; urgency=low
+
+  * Python3 fix
+
+ -- Phil Howard <phil@pimoroni.com>  Thu, 23 Jun 2016 00:00:00 +0000
+
+envirophat (0.0.2) UNRELEASED; urgency=low
+
+  * Bug fixes
+
+ -- Phil Howard <phil@pimoroni.com>  Fri, 17 Jun 2016 00:00:00 +0000
+
+envirophat (0.0.1) UNRELEASED; urgency=low
+
+  * Initial release
+
+ -- Phil Howard <phil@pimoroni.com>  Thu, 16 Jun 2016 00:00:00 +0000
