@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
+from envirophat import motion, leds
+import time
+
 print("""This example will detect motion using the accelerometer.
 
 Press Ctrl+C to exit.
 
 """)
-
-import time
-from envirophat import motion, leds
 
 threshold = 0.2
 readings = []
