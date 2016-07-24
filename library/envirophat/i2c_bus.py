@@ -11,6 +11,7 @@ try:
 except ImportError:
     exit("This library requires the RPi.GPIO module\nInstall with: sudo pip install RPi.GPIO")
 
+
 bus = None
 
 if GPIO.RPI_REVISION == 2 or GPIO.RPI_REVISION == 3:

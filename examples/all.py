@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
+import sys
+import time
+
 from envirophat import light, weather, motion, analog
-import time, sys
+
 
 def write(line):
     sys.stdout.write(line)

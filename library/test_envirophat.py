@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
-from envirophat import light, motion, weather, analog, leds
 import time
+
+from envirophat import light, motion, weather, analog, leds
+
 
 while True:
     print("LEDs on...")
