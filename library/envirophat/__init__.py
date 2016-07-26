@@ -1,9 +1,10 @@
 from .i2c_bus import bus
-from .tcs3472 import tcs3472
-from .bmp280 import bmp280
 from .ads1015 import ads1015
-from .lsm303d import lsm303d
+from .bmp280 import bmp280
 from .leds import leds
+from .lsm303d import lsm303d
+from .tcs3472 import tcs3472
+
 
 leds = leds()
 light = tcs3472(bus)

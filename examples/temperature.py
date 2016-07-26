@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
-from envirophat import weather, leds
 import time
+
+from envirophat import weather, leds
+
 
 print("""This example will detect motion using the accelerometer.
 
