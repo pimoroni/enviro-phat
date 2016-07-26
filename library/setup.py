@@ -51,5 +51,5 @@ setup(
     py_modules      = [],
     packages        = ['envirophat'],
     include_package_data = True,
-    install_requires= []
+    install_requires= [ 'RPi.GPIO' ]
 )

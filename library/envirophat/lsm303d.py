@@ -1,6 +1,7 @@
-import time
 import math
 import struct
+import time
+
 
 ### LSM303 Address ###
 ADDR    = 0x1D # Assuming SA0 grounded
