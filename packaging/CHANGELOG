@@ -1,3 +1,9 @@
+envirophat (0.0.5) UNRELEASED; urgency=low
+
+  * Bug fix to lsm303d raw_heading
+
+ -- Phil Howard <phil@pimoroni.com>  Fri, 12 Aug 2016 00:00:00 +0000
+
 envirophat (0.0.4) UNRELEASED; urgency=low
 
   * Tidy up of read functions in bmp280
