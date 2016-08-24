@@ -154,7 +154,7 @@ class lsm303d:
         return vector(self._accel)
 
     def raw_heading(self):
-        self.heading = math.atan2(self._mag[X], self._mag[Y])
+        self._heading = math.atan2(self._mag[X], self._mag[Y])
 
         if self._heading < 0:
             self._heading += 2*math.pi

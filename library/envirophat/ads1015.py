@@ -2,6 +2,7 @@ import time
 
 
 ADDR = 0x48
+ALT = 0x49
 
 REG_CONV = 0x00
 REG_CFG = 0x01
@@ -26,8 +27,19 @@ class ads1015:
             raise TypeError("Object given for i2c_bus must implement write_i2c_block_data and read_i2c_block_data")
 
         self.addr = addr
+        self.max_voltage = 3300
+        self.default_gain = PGA_4_096V
+         
+        try:
+            self.i2c_bus.read_byte_data(self.addr, 0x00)
+        except IOError:
+            self.addr = ALT
+            self.max_voltage = 5000
+            self.default_gain = PGA_6_144V
 
-    def read(self, channel=0, programmable_gain=PGA_4_096V, samples_per_second=1600):
+    def read(self, channel=0, programmable_gain=None, samples_per_second=1600):
+        if programmable_gain is None:
+            programmable_gain = self.default_gain
         # sane defaults
         config = 0x0003 | 0x0100
 
@@ -54,7 +66,7 @@ class ads1015:
         value /= 2047.0
         value *= float(programmable_gain)
 
-        if value > 3300.0:
+        if value > self.max_voltage:
             self._over_voltage[channel] = True
 
         return round(value / 1000.0,3)
