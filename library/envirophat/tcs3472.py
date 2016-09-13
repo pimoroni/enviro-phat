@@ -38,6 +38,11 @@ class tcs3472:
         self.set_integration_time_ms(511.2)
 
     def set_integration_time_ms(self, ms):
+        """Set the sensor integration time in milliseconds.
+
+        :param ms: The integration time in milliseconds from 2.4 to 612, in increments of 2.4.
+
+        """
         if ms < 2.4 or ms > 612:
             raise TypeError("Integration time must be between 2.4 and 612ms")
         self._atime = int(round(ms / 2.4))
@@ -46,9 +51,11 @@ class tcs3472:
         self.i2c_bus.write_byte_data(ADDR, REG_ATIME, 256 - self._atime)
 
     def max_count(self):
+        """Return the maximum value which can be counted by a channel with the chosen integration time."""
         return self._max_count
 
     def scaled(self):
+        """Return a tuple containing the red, green and blue colour values ranging from 0 to 1.0 scaled against the clear value."""
         rgbc = self.raw()
         if rgbc[CH_CLEAR] > 0:
             return tuple([float(x) / rgbc[CH_CLEAR] for x in rgbc])
@@ -56,15 +63,18 @@ class tcs3472:
         return (0,0,0)
 
     def rgb(self):
+        """Return a tuple containing the red, green and blue colour values ranging 0 to 255 scaled against the clear value."""
         return tuple([int(x * 255) for x in self.scaled()][:CH_CLEAR])
 
     def light(self):
+        """Return the clear/unfiltered light level as an integer."""
         return self.raw()[CH_CLEAR]
 
     def valid(self):
         return (self.i2c_bus.read_byte_data(ADDR, REG_STATUS) & 1) > 0
 
     def raw(self):
+        """Return the raw red, green, blue and clear channels"""
         #data = self.i2c_bus.read_i2c_block_data(ADDR, REG_CLEAR_L, 8)
         #c = data[0] | (data[1] << 8)
         #r = data[2] | (data[3] << 8)

@@ -38,6 +38,12 @@ class ads1015:
             self.default_gain = PGA_6_144V
 
     def read(self, channel=0, programmable_gain=None, samples_per_second=1600):
+        """Read a specific ADC channel.
+
+        :param channel: ADC channel, from 0 to 3
+        :param programmable_gain: Gain amount to use, one of 6144, 4096, 2048, 1024, 512 or 256 (default 4096 or 6144 depending on revision)
+        :param samples_per_second: Samples per second, one of 128, 250, 498, 920, 1600, 2400, 3300 (default 1600)
+        """
         if programmable_gain is None:
             programmable_gain = self.default_gain
         # sane defaults
@@ -72,11 +78,13 @@ class ads1015:
         return round(value / 1000.0,3)
 
     def read_all(self):
+        """Read all analog channels and return their values in a tuple."""
         return tuple([self.read(channel=x) for x in range(4)])
 
     values = read_all
 
     def available(self):
+        """Check if the ADC is available."""
         try:
             self.read()
             return True
