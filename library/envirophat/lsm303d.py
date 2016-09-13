@@ -130,6 +130,10 @@ class lsm303d:
             raise IOError("No lsm303d detected")
 
     def magnetometer(self):
+        """Read the magnetomter and return the raw x, y and z magnetic readings as a vector.
+
+        The returned vector will have properties x, y and z.
+        """
         self._mag[X] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_X_H_M) << 8 | 
                           self.i2c_bus.read_byte_data(self.addr, OUT_X_L_M), 16)
         self._mag[Y] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_Y_H_M) << 8 | 
@@ -140,6 +144,10 @@ class lsm303d:
         return vector(self._mag)
 
     def accelerometer(self):
+        """Read the accelerometer and return the x, y and z acceleration as a vector in Gs.
+
+        The returned vector will have properties x, y and z.
+        """
         accel = [0,0,0]
         accel[X] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_X_H_A) << 8 | 
                            self.i2c_bus.read_byte_data(self.addr, OUT_X_L_A), 16)
@@ -154,6 +162,8 @@ class lsm303d:
         return vector(self._accel)
 
     def raw_heading(self):
+        """Return a raw compas heading calculated from the magnetometer data."""
+
         self._heading = math.atan2(self._mag[X], self._mag[Y])
 
         if self._heading < 0:
@@ -166,6 +176,8 @@ class lsm303d:
         return self._heading_degrees
 
     def heading(self):
+        """Return a tilt compensated heading calculated from the magnetometer data."""
+
         self.update()
 
         truncate = [0,0,0]
@@ -199,5 +211,7 @@ class lsm303d:
         return (self.i2c_bus.read_byte_data(self.addr, STATUS_REG_M) & 0x03) > 0
 
     def update(self):
+        """Update botht he accelerometer and magnetometer data."""
+        
         self.accelerometer()
         self.magnetometer()
