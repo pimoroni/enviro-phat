@@ -101,63 +101,80 @@ class bmp280:
         if not hasattr(i2c_bus, "write_byte_data") or not hasattr(i2c_bus, "read_byte_data"):
             raise TypeError("Object given for i2c_bus must implement write_byte_data and read_byte_data methods")
 
-        if self.read_byte(REGISTER_CHIPID) == 0x58: # check sensor id 0x58=BMP280
-            self.write_byte(REGISTER_SOFTRESET,0xB6) # reset sensor
+        if self._read_byte(REGISTER_CHIPID) == 0x58: # check sensor id 0x58=BMP280
+            self._write_byte(REGISTER_SOFTRESET,0xB6) # reset sensor
             time.sleep(0.2) # little break
-            self.write_byte(REGISTER_CONTROL,CTRL_MEAS) #
+            self._write_byte(REGISTER_CONTROL,CTRL_MEAS) #
             time.sleep(0.2) # little break
-            self.write_byte(REGISTER_CONFIG,CONFIG)  #
+            self._write_byte(REGISTER_CONFIG,CONFIG)  #
             time.sleep(0.2)
 
-            self.dig_T1 = self.read_unsigned_word(REGISTER_DIG_T1) # read correction settings
-            self.dig_T2 = self.read_signed_word(REGISTER_DIG_T2)
-            self.dig_T3 = self.read_signed_word(REGISTER_DIG_T3)
-            self.dig_P1 = self.read_unsigned_word(REGISTER_DIG_P1)
-            self.dig_P2 = self.read_signed_word(REGISTER_DIG_P2)
-            self.dig_P3 = self.read_signed_word(REGISTER_DIG_P3)
-            self.dig_P4 = self.read_signed_word(REGISTER_DIG_P4)
-            self.dig_P5 = self.read_signed_word(REGISTER_DIG_P5)
-            self.dig_P6 = self.read_signed_word(REGISTER_DIG_P6)
-            self.dig_P7 = self.read_signed_word(REGISTER_DIG_P7)
-            self.dig_P8 = self.read_signed_word(REGISTER_DIG_P8)
-            self.dig_P9 = self.read_signed_word(REGISTER_DIG_P9)
+            self.dig_T1 = self._read_unsigned_word(REGISTER_DIG_T1) # read correction settings
+            self.dig_T2 = self._read_signed_word(REGISTER_DIG_T2)
+            self.dig_T3 = self._read_signed_word(REGISTER_DIG_T3)
+            self.dig_P1 = self._read_unsigned_word(REGISTER_DIG_P1)
+            self.dig_P2 = self._read_signed_word(REGISTER_DIG_P2)
+            self.dig_P3 = self._read_signed_word(REGISTER_DIG_P3)
+            self.dig_P4 = self._read_signed_word(REGISTER_DIG_P4)
+            self.dig_P5 = self._read_signed_word(REGISTER_DIG_P5)
+            self.dig_P6 = self._read_signed_word(REGISTER_DIG_P6)
+            self.dig_P7 = self._read_signed_word(REGISTER_DIG_P7)
+            self.dig_P8 = self._read_signed_word(REGISTER_DIG_P8)
+            self.dig_P9 = self._read_signed_word(REGISTER_DIG_P9)
         else:
             raise IOError("bmp280 not found on address {:x}".format(self.addr))
 
-    def write_byte(self, register, value):
+    def _write_byte(self, register, value):
         self.i2c_bus.write_byte_data(self.addr, register, value)
 
-    def read_byte(self, register):
+    def _read_byte(self, register):
         return self.i2c_bus.read_byte_data(self.addr, register)
 
-    def read_word(self, register):
+    def _read_word(self, register):
         return self.i2c_bus.read_word_data(self.addr, register)
 
-    def read_signed_word(self, register):
-        word = self.read_word(register)
+    def _read_signed_word(self, register):
+        word = self._read_word(register)
         return signed_int(word)
 
-    def read_unsigned_word(self, register):
-        return self.read_word(register)
+    def _read_unsigned_word(self, register):
+        return self._read_word(register)
 
     def temperature(self):
+        """Return the current temperature.
+
+        Note: This value may be affected by nearby sources of heat, including the Pi itself.
+        """
+
         self.update()
         return self._temperature
 
     def pressure(self):
+        """Return the current air pressure."""
+
         self.update()
         return self._pressure
 
     def altitude(self, qnh=QNH):
+        """Return the current approximate altitude.
+
+        :param qnh: Your local value for atmospheric pressure adjusted to sea level.
+
+        """
         return 44330.0 * (1.0 - pow(self.pressure() / (qnh*100), (1.0/5.255))) # Calculate altitute from pressure & qnh
 
     def update(self):
-        raw_temp_msb=self.read_byte(REGISTER_TEMPDATA_MSB) # read raw temperature msb
-        raw_temp_lsb=self.read_byte(REGISTER_TEMPDATA_LSB) # read raw temperature lsb
-        raw_temp_xlsb=self.read_byte(REGISTER_TEMPDATA_XLSB) # read raw temperature xlsb
-        raw_press_msb=self.read_byte(REGISTER_PRESSDATA_MSB) # read raw pressure msb
-        raw_press_lsb=self.read_byte(REGISTER_PRESSDATA_LSB) # read raw pressure lsb
-        raw_press_xlsb=self.read_byte(REGISTER_PRESSDATA_XLSB) # read raw pressure xlsb
+        """Update stored temperature and pressure values.
+
+        This function is called automatically when calling temperature() or pressure().
+        
+        """
+        raw_temp_msb=self._read_byte(REGISTER_TEMPDATA_MSB) # read raw temperature msb
+        raw_temp_lsb=self._read_byte(REGISTER_TEMPDATA_LSB) # read raw temperature lsb
+        raw_temp_xlsb=self._read_byte(REGISTER_TEMPDATA_XLSB) # read raw temperature xlsb
+        raw_press_msb=self._read_byte(REGISTER_PRESSDATA_MSB) # read raw pressure msb
+        raw_press_lsb=self._read_byte(REGISTER_PRESSDATA_LSB) # read raw pressure lsb
+        raw_press_xlsb=self._read_byte(REGISTER_PRESSDATA_XLSB) # read raw pressure xlsb
 
         raw_temp=(raw_temp_msb <<12)+(raw_temp_lsb<<4)+(raw_temp_xlsb>>4) # combine 3 bytes  msb 12 bits left, lsb 4 bits left, xlsb 4 bits right
         raw_press=(raw_press_msb <<12)+(raw_press_lsb <<4)+(raw_press_xlsb >>4) # combine 3 bytes  msb 12 bits left, lsb 4 bits left, xlsb 4 bits right
