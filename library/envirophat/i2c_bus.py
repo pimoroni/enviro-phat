@@ -18,3 +18,6 @@ if GPIO.RPI_REVISION == 2 or GPIO.RPI_REVISION == 3:
     bus = smbus.SMBus(1)
 else:
     bus = smbus.SMBus(0)
+
+if bus == smbus.SMBus(1):
+    altbus = smbus.SMBus(0)

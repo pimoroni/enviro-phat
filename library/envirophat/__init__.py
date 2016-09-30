@@ -1,4 +1,4 @@
-from .i2c_bus import bus
+from .i2c_bus import bus, altbus
 from .ads1015 import ads1015
 from .bmp280 import bmp280
 from .leds import leds
@@ -12,8 +12,8 @@ weather = bmp280(bus)
 analog = ads1015(bus)
 motion = lsm303d(bus)
 
-if bus == smbus.SMBus(1):
-    lightalt = tcs3472(smbus.SMBus(0))
-    weatheralt = bmp280(smbus.SMBus(0))
-    analogalt = ads1015(smbus.SMBus(0))
-    motionalt = lsm303d(smbus.SMBus(0))
+if altbus:
+    altlight = tcs3472(altbus)
+    altweather = bmp280(altbus)
+    altanalog = ads1015(altbus)
+    altmotion = lsm303d(altbus)
