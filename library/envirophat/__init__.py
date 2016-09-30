@@ -12,7 +12,7 @@ weather = bmp280(bus)
 analog = ads1015(bus)
 motion = lsm303d(bus)
 
-if bus = smbus.SMBus(1):
+if bus == smbus.SMBus(1):
     lightalt = tcs3472(smbus.SMBus(0))
     weatheralt = bmp280(smbus.SMBus(0))
     analogalt = ads1015(smbus.SMBus(0))
