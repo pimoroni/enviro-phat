@@ -13,7 +13,10 @@ try:
     analog = ads1015(bus)
     motion = lsm303d(bus)
 except IOError:
-    light = tcs3472(altbus)
-    weather = bmp280(altbus)
-    analog = ads1015(altbus)
-    motion = lsm303d(altbus) 
+    try:
+        light = tcs3472(altbus)
+        weather = bmp280(altbus)
+        analog = ads1015(altbus)
+        motion = lsm303d(altbus) 
+    except IOError:
+        print "Enviro pHAT can't be detected!"
