@@ -13,7 +13,7 @@ try:
     analog = ads1015(bus)
     motion = lsm303d(bus)
 except IOError:
-    print "can't find Enviro pHAT on the i2c1 bus"
+    pass
 
 try:
     altlight = tcs3472(altbus)
