@@ -1,3 +1,5 @@
+from sys import exit
+
 from .i2c_bus import bus
 try:
     from .i2c_bus import altbus
@@ -24,4 +26,4 @@ except IOError:
         analog = ads1015(altbus)
         motion = lsm303d(altbus) 
     except (NameError, IOError):
-        print "Enviro pHAT can't be detected!"
+        exit("Enviro pHAT can't be detected!")
