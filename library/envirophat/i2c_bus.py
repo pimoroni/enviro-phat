@@ -1,3 +1,4 @@
+import atexit
 import sys
 
 try:
