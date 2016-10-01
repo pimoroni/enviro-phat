@@ -23,7 +23,5 @@ except IOError:
         weather = bmp280(altbus)
         analog = ads1015(altbus)
         motion = lsm303d(altbus) 
-    except NameError:
-        raise IOError
-    except IOError:
+    except (NameError, IOError):
         print "Enviro pHAT can't be detected!"
