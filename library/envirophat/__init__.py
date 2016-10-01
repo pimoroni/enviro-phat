@@ -13,12 +13,7 @@ try:
     analog = ads1015(bus)
     motion = lsm303d(bus)
 except IOError:
-    pass
-
-try:
-    altlight = tcs3472(altbus)
-    altweather = bmp280(altbus)
-    altanalog = ads1015(altbus)
-    altmotion = lsm303d(altbus)
-except IOError:
-    pass
+    light = tcs3472(altbus)
+    weather = bmp280(altbus)
+    analog = ads1015(altbus)
+    motion = lsm303d(altbus) 
