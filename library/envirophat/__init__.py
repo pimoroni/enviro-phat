@@ -1,9 +1,14 @@
-from .i2c_bus import bus, altbus
+from .i2c_bus import bus
+try:
+    from .i2c_bus import altbus
+except ImportError:
+    pass
+
 from .ads1015 import ads1015
 from .bmp280 import bmp280
-from .leds import leds
 from .lsm303d import lsm303d
 from .tcs3472 import tcs3472
+from .leds import leds
 
 leds = leds()
 
