@@ -5,15 +5,16 @@ from .leds import leds
 from .lsm303d import lsm303d
 from .tcs3472 import tcs3472
 
-
-leds = leds()
-light = tcs3472(bus)
-weather = bmp280(bus)
-analog = ads1015(bus)
-motion = lsm303d(bus)
-
-if altbus:
+try:
     altlight = tcs3472(altbus)
     altweather = bmp280(altbus)
     altanalog = ads1015(altbus)
     altmotion = lsm303d(altbus)
+except IOError:
+    print "using main bus"    
+else:
+    leds = leds()
+    light = tcs3472(bus)
+    weather = bmp280(bus)
+    analog = ads1015(bus)
+    motion = lsm303d(bus)
