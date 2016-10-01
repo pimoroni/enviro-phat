@@ -26,4 +26,7 @@ if GPIO.RPI_REVISION == 2 or GPIO.RPI_REVISION == 3:
     except IOError:
         pass
 else:
-    bus = smbus.SMBus(0)
+    try:
+        bus = smbus.SMBus(0)
+    except IOError:
+        exit("Creating instance of class SMBus failed\nCheck that the I2C interface is enabled!")
