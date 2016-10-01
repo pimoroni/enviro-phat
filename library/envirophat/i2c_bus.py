@@ -16,7 +16,9 @@ bus = None
 
 if GPIO.RPI_REVISION == 2 or GPIO.RPI_REVISION == 3:
     bus = smbus.SMBus(1)
-    altbus = smbus.SMBus(0)
+    try:
+        altbus = smbus.SMBus(0)
+    except IOError:
+        pass
 else:
     bus = smbus.SMBus(0)
-    
