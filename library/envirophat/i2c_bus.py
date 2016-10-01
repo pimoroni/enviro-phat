@@ -17,7 +17,10 @@ except ImportError:
 bus = None
 
 if GPIO.RPI_REVISION == 2 or GPIO.RPI_REVISION == 3:
-    bus = smbus.SMBus(1)
+    try:
+        bus = smbus.SMBus(1)
+    except IOError:
+        exit("Creating instance of class SMBus failed\nCheck that the I2C interface is enabled!")
     try:
         altbus = smbus.SMBus(0)
     except IOError:
