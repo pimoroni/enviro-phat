@@ -49,7 +49,7 @@ Get the temperature in degrees C:
 weather.temperature()
 ```
 
-Get the pressure in hPA:
+Get the pressure in Pa:
 
 ```
 weather.pressure()
