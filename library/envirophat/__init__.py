@@ -13,6 +13,7 @@ from .tcs3472 import tcs3472
 from .leds import leds
 
 leds = leds()
+mainbus = bus
 
 try:
     light = tcs3472(bus)
@@ -20,6 +21,9 @@ try:
     analog = ads1015(bus)
     motion = lsm303d(bus)
 except IOError:
+    mainbus = None
+
+if mainbus = None:
     try:
         light = tcs3472(altbus)
         weather = bmp280(altbus)
@@ -27,3 +31,11 @@ except IOError:
         motion = lsm303d(altbus) 
     except (NameError, IOError):
         exit("Enviro pHAT can't be detected!")
+else:
+    try:
+        altlight = tcs3472(altbus)
+        altweather = bmp280(altbus)
+        altanalog = ads1015(altbus)
+        altmotion = lsm303d(altbus) 
+    except (NameError, IOError):
+        pass
