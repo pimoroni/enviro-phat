@@ -5,17 +5,14 @@ except ImportError:
 
 
 pin = 4
-altpin = 5
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pin, GPIO.OUT)
 GPIO.output(pin, 0)
-GPIO.setup(altpin, GPIO.OUT)
-GPIO.output(altpin, 0)
 
 class leds:
-    def __init__(self, pin, status=0):
+    def __init__(self, status=0):
         self.status = status
 
     def on(self):
