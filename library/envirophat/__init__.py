@@ -12,7 +12,7 @@ from .lsm303d import lsm303d
 from .tcs3472 import tcs3472
 from .leds import leds
 
-leds = leds()
+leds = leds(4)
 mainbus = bus
 
 try:
