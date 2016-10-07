@@ -23,7 +23,7 @@ try:
 except IOError:
     mainbus = None
 
-if mainbus = None:
+if mainbus == None:
     try:
         light = tcs3472(altbus)
         weather = bmp280(altbus)
