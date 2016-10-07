@@ -42,32 +42,3 @@ class leds:
             return True
         else:
             return False
-
-class altleds:
-    def __init__(self, status=0):
-        self.status = status
-
-    def on(self):
-        """Turn LED on."""
-        self.status = 1
-        GPIO.output(altpin, 1)
-        return True
-
-    def off(self):
-        """Turn LED off."""
-        self.status = 0
-        GPIO.output(altpin, 0)
-
-    def is_on(self):
-        """Return True if LED is on."""
-        if self.status == 1:
-            return True
-        else:
-            return False
-
-    def is_off(self):
-        """Return True if LED is off."""
-        if self.status == 0:
-            return True
-        else:
-            return False
