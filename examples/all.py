@@ -19,7 +19,7 @@ try:
 
         output = """
 Temp: {t}c
-Pressure: {p}hPa
+Pressure: {p}Pa
 Light: {c}
 RGB: {r}, {g}, {b} 
 Heading: {h}
