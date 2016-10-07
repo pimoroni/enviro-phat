@@ -24,15 +24,7 @@ try:
 except IOError:
     mainbus = None
 
-if mainbus == None:
-    try:
-        light = tcs3472(altbus)
-        weather = bmp280(altbus)
-        analog = ads1015(altbus)
-        motion = lsm303d(altbus) 
-    except (NameError, IOError):
-        exit("Enviro pHAT can't be detected!")
-else:
+if mainbus != None:
     try:
         altlight = tcs3472(altbus)
         altweather = bmp280(altbus)
@@ -40,3 +32,16 @@ else:
         altmotion = lsm303d(altbus) 
     except (NameError, IOError):
         pass
+else:
+    try:
+        light = tcs3472(altbus)
+        weather = bmp280(altbus)
+        analog = ads1015(altbus)
+        motion = lsm303d(altbus)
+        altlight = tcs3472(altbus)
+        altweather = bmp280(altbus)
+        altanalog = ads1015(altbus)
+        altmotion = lsm303d(altbus) 
+    except (NameError, IOError):
+        exit("Enviro pHAT can't be detected!")
+    
