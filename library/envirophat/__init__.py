@@ -10,9 +10,10 @@ from .ads1015 import ads1015
 from .bmp280 import bmp280
 from .lsm303d import lsm303d
 from .tcs3472 import tcs3472
-from .leds import leds
+from .leds import leds, altleds
 
-leds = leds(4)
+leds = leds()
+altleds = altleds()
 mainbus = bus
 
 try:
