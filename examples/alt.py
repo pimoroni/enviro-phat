@@ -1,9 +1,20 @@
 #!/usr/bin/env python
 
+'''This example demonstrate how to translate calls to the alternative classes'''
+'''Those classes will be assigned to the base class when there is only one pHAT'''
+'''But otherwise they will drive the pHAT located on the videocore bus'''
+
 import sys
 import time
 
-from envirophat import leds, light, weather, motion, analog
+from envirophat import altleds, altlight, altweather, altmotion, altanalog
+
+
+leds = altleds
+light = altlight
+weather= altweather
+motion = altmotion
+analog = altanalog
 
 
 def write(line):
@@ -15,7 +26,7 @@ leds.on()
 time.sleep(1)
 leds.off()
 
-write("\n---  Enviro pHAT Monitoring   ---\n")
+write("\n--- Enviro pHAT Monitoring ---\n")
 
 try:
     while True:
