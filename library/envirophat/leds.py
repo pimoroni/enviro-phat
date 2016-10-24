@@ -1,3 +1,5 @@
+from sys import exit
+
 try:
     import RPi.GPIO as GPIO
 except ImportError:
