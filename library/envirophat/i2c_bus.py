@@ -1,9 +1,11 @@
+from sys import exit
+
 try:
     import smbus
 except ImportError:
-    if sys.version_info[0] < 3:
+    if version_info[0] < 3:
         exit("This library requires python-smbus\nInstall with: sudo apt-get install python-smbus")
-    elif sys.version_info[0] == 3:
+    elif version_info[0] == 3:
         exit("This library requires python3-smbus\nInstall with: sudo apt-get install python3-smbus")
 
 try:
