@@ -39,7 +39,7 @@ classifiers = ['Development Status :: 5 - Production/Stable',
 
 setup(
     name            = 'envirophat',
-    version         = '0.0.6',
+    version         = '0.0.5',
     author          = 'Philip Howard',
     author_email    = 'phil@pimoroni.com',
     description     = 'Enviro pHAT Driver',

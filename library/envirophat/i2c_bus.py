@@ -1,11 +1,9 @@
-from sys import exit, version_info
-
 try:
     import smbus
 except ImportError:
-    if version_info[0] < 3:
+    if sys.version_info[0] < 3:
         exit("This library requires python-smbus\nInstall with: sudo apt-get install python-smbus")
-    elif version_info[0] == 3:
+    elif sys.version_info[0] == 3:
         exit("This library requires python3-smbus\nInstall with: sudo apt-get install python3-smbus")
 
 try:
@@ -17,16 +15,6 @@ except ImportError:
 bus = None
 
 if GPIO.RPI_REVISION == 2 or GPIO.RPI_REVISION == 3:
-    try:
-        bus = smbus.SMBus(1)
-    except IOError:
-        exit("Creating instance of class SMBus failed\nCheck that the I2C interface is enabled!")
-    try:
-        altbus = smbus.SMBus(0)
-    except IOError:
-        pass
+    bus = smbus.SMBus(1)
 else:
-    try:
-        bus = smbus.SMBus(0)
-    except IOError:
-        exit("Creating instance of class SMBus failed\nCheck that the I2C interface is enabled!")
+    bus = smbus.SMBus(0)
