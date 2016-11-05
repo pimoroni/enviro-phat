@@ -1,4 +1,4 @@
-from sys import exit
+from sys import exit, version_info
 
 try:
     import smbus
