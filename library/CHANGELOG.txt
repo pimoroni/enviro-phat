@@ -1,3 +1,9 @@
+0.0.6
+-----
+
+* Added __version__ to module
+* Added DocStrings
+
 0.0.5
 -----
 

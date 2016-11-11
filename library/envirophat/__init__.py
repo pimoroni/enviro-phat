@@ -6,6 +6,8 @@ from .lsm303d import lsm303d
 from .tcs3472 import tcs3472
 
 
+__version__ = '0.0.6'
+
 leds = leds()
 light = tcs3472(bus)
 weather = bmp280(bus)
