@@ -26,6 +26,8 @@ At A Glance
 .. automethodoutline:: light.rgb
 .. automethodoutline:: light.light
 .. automethodoutline:: light.raw
+.. automethodoutline:: leds.on
+.. automethodoutline:: leds.off
 .. automethodoutline:: weather.temperature
 .. automethodoutline:: weather.pressure
 .. automethodoutline:: weather.altitude
@@ -47,6 +49,11 @@ Light sensing is provided by a TCS3472 colour sensor, with filtered channels for
 .. automethod:: light.rgb
 .. automethod:: light.light
 .. automethod:: light.raw
+
+For colour sensing, two LEDs are placed either side of the TCS3472 to illuminate the subject.
+
+.. automethod:: leds.on
+.. automethod:: leds.off
 
 Weather
 -------
@@ -77,4 +84,3 @@ Motion sensing is provided by an LSM303D accelerometer and magnetometer. The com
 .. automethod:: motion.heading
 .. automethod:: motion.raw_heading
 .. automethod:: motion.update
-
