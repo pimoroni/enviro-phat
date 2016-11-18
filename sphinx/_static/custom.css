@@ -25,16 +25,16 @@
 code.literal {
     color:#e63c2e;
 }
-.rst-content #module-blinkt {
+.rst-content #at-a-glance {
     margin-bottom:24px;
 }
-.rst-content #module-blinkt dl:not(.docutils) dt {
+.rst-content #at-a-glance dl:not(.docutils) dt {
     border:none;
     background:#f0f0f0;
 }
-.rst-content #module-blinkt dl:not(.docutils) dd {
+.rst-content #at-a-glance dl:not(.docutils) dd {
     display:none;
 }
-.rst-content #module-blinkt dl:not(.docutils) {
+.rst-content #at-a-glance dl:not(.docutils) {
     margin-bottom:0;
 }
