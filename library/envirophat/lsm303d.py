@@ -176,7 +176,11 @@ class lsm303d:
         return self._heading_degrees
 
     def heading(self):
-        """Return a tilt compensated heading calculated from the magnetometer data."""
+        """Return a tilt compensated heading calculated from the magnetometer data.
+
+        Returns None in the case of a calculation error.
+
+        """
 
         self.update()
 
@@ -211,7 +215,7 @@ class lsm303d:
         return (self.i2c_bus.read_byte_data(self.addr, STATUS_REG_M) & 0x03) > 0
 
     def update(self):
-        """Update botht he accelerometer and magnetometer data."""
+        """Update both the accelerometer and magnetometer data."""
         
         self.accelerometer()
         self.magnetometer()

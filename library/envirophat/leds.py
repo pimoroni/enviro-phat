@@ -16,13 +16,13 @@ class leds:
         self.status = status
 
     def on(self):
-        """Turn LED on."""
+        """Turn LEDs on."""
         self.status = 1
         GPIO.output(4, 1)
         return True
 
     def off(self):
-        """Turn LED off."""
+        """Turn LEDs off."""
         self.status = 0
         GPIO.output(4, 0)
 
