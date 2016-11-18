@@ -75,6 +75,8 @@ PACKAGE_HANDLE = "EnviropHAT"
 PACKAGE_MODULE = "envirophat"
 PACKAGE_VERSION = envirophat.__version__
 
+suppress_warnings = ["app.add_directive"]
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
