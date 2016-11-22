@@ -55,6 +55,13 @@ sudo pip2 install envirophat
 
 In all cases you will have to enable the i2c bus.
 
+# Documentation & Support
+
+* Getting started - https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-enviro-phat
+* Function reference - http://docs.pimoroni.com/envirophat/
+* GPIO Pinout - https://pinout.xyz/pinout/enviro_phat
+* Get help - http://forums.pimoroni.com/c/support
+
 # Usage
 
 You can import one or more devices from the Enviro pHAT library, which has:
