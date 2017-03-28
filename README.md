@@ -1,6 +1,6 @@
 # Enviro pHAT
 
-https://shop.pimoroni.com/products/scroll-phat-hd
+https://shop.pimoroni.com/products/enviro-phat
 
 The Pimoroni Enviro pHAT boast a plethora of sensors and connectivity for measuring your environment.
 
