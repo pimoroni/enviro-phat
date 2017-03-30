@@ -1,6 +1,8 @@
 # Enviro pHAT
 
-Python library for the Pimoroni Enviro pHAT, a plethora of sensors and connectivity for measuring your environment.
+https://shop.pimoroni.com/products/enviro-phat
+
+The Pimoroni Enviro pHAT boast a plethora of sensors and connectivity for measuring your environment.
 
 Enviro pHAT includes:
 
@@ -11,136 +13,75 @@ Enviro pHAT includes:
 * A 5v power supply pin for powering your sensors, which you can regulate or divide to 3v if needed
 * Two LEDs connected to GPIO #4 for illuminating objects over the colour sensor
 
-# Installing
+## Installing
 
-**Full install ( recommended ):**
+### Full install (recommended):
 
-We've created a super-easy installation script that will install all pre-requisites and get your Enviro pHAT up and running in a jiffy. To run it fire up Terminal which you'll find in Menu -> Accessories -> Terminal on your Raspberry Pi desktop like so:
+We've created an easy installation script that will install all pre-requisites and get your Enviro pHAT
+up and running with minimal efforts. To run it, fire up Terminal which you'll find in Menu -> Accessories -> Terminal
+on your Raspberry Pi desktop, as illustrated below:
 
-![Finding the terminal](terminal.jpg)
+![Finding the terminal](http://get.pimoroni.com/resources/github-repo-terminal.png)
 
-In the new terminal window type the following and follow the instructions:
+In the new terminal window type the command exactly as it appears below (check for typos) and follow the on-screen instructions:
 
 ```bash
-curl -sS https://get.pimoroni.com/envirophat | bash
+curl https://get.pimoroni.com/envirophat | bash
 ```
+
+Alternatively, on Raspbian, you can download the `pimoroni-dashboard` and install your product by browsing to the relevant entry:
+
+```bash
+sudo apt-get install pimoroni
+```
+(you will find the Dashboard under 'Accessories' too, in the Pi menu - or just run `pimoroni-dashboard` at the command line)
 
 If you choose to download examples you'll find them in `/home/pi/Pimoroni/envirophat/`.
 
-**Library install for Python 3:**
+### Manual install:
+
+#### Library install for Python 3:
 
 on Raspbian:
 
 ```bash
 sudo apt-get install python3-envirophat
 ```
+
 other environments: 
 
 ```bash
 sudo pip3 install envirophat
 ```
 
-**Library install for Python 2:**
+#### Library install for Python 2:
 
 on Raspbian:
 
 ```bash
 sudo apt-get install python-envirophat
 ```
+
 other environments: 
 
 ```bash
 sudo pip2 install envirophat
 ```
 
+### Development:
+
+If you want to contribute, or like living on the edge of your seat by having the latest code, you should clone this repository, `cd` to the library directory, and run:
+
+```bash
+sudo python3 setup.py install
+```
+(or `sudo python setup.py install` whichever your primary Python environment may be)
+
 In all cases you will have to enable the i2c bus.
 
-# Documentation & Support
+## Documentation & Support
 
-* Getting started - https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-enviro-phat
+* Guides and tutorials - https://learn.pimoroni.com/enviro-phat
 * Function reference - http://docs.pimoroni.com/envirophat/
 * GPIO Pinout - https://pinout.xyz/pinout/enviro_phat
 * Get help - http://forums.pimoroni.com/c/support
-
-# Usage
-
-You can import one or more devices from the Enviro pHAT library, which has:
-
-* light
-* motion
-* weather
-* analog
-* leds
-
-For example:
-
-```python
-from envirophat import motion, light
-```
-
-## Weather
-
-Weather is monitored by the BMP280 temperature/pressure sensor.
-
-Get the temperature in degrees C:
-
-```
-weather.temperature()
-```
-
-Get the pressure in Pa:
-
-```
-weather.pressure()
-```
-
-## Light
-
-Light sensing is provided by a TCS3472 colour sensor, which has 4 light sensors inside with different filters in front of them. 3 of these are red, blue and green, and the 4th is unfiltered to provide a light level for comparison. It's usually referred to as "clear".
-
-Get the colour of the light, adjusted against clear and scaled to 0-255:
-
-```
-r, g, b = light.rgb()
-```
-
-Get the amount of light detected:
-
-```
-light.light()
-```
-
-## Motion
-
-The LSM303D can detect the motion, orientation and magnetic heading of your Pi.
-
-Get the raw accelerometer data:
-
-```
-x, y, z = motion.accelerometer()
-```
-
-Get your Pi's offset, in degrees, from magnetic north:
-
-```
-motion.heading()
-```
-
-You can also get the raw magnetometer data, but you'll have to get creative
-to do something useful with it!
-
-```
-x,y,z = motion.magnetometer()
-```
-
-## Analog
-
-Enviro pHAT uses an ADS1015 to provide four 3.3v tolerant analog inputs and a 5v power supply pin for your external sensors.
-
-You can read all of the analog readings at once like so:
-
-```
-analog.read_all()
-```
-
-This will return 4 floating point values between 0.0 and 3.3v, directly mapping to the detected voltage.
