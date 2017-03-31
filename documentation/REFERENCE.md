@@ -1,4 +1,5 @@
-#Enviro pHAT Function Reference
+# Enviro pHAT Function Reference
+for full API documentation, see http://docs.pimoroni.com/envirophat/
 
 You can import one or more devices from the Enviro pHAT library, which has:
 
