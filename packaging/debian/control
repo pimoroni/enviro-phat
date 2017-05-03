@@ -13,7 +13,7 @@ Architecture: all
 Section: python
 Depends: ${misc:Depends}, ${python:Depends}, python-rpi.gpio, python-smbus
 Suggests: i2c-tools
-Description: python library designed to control Enviro pHAT.
+Description: Python library for the Pimoroni Enviro pHAT.
  Enviro pHAT is an affordable mix of sensors ideal for monitoring server rooms
  or anything you might want to observe. It also includes a 4-channel ADC,
  for adding sensors of your own.
@@ -25,7 +25,7 @@ Architecture: all
 Section: python
 Depends: ${misc:Depends}, ${python3:Depends}, python3-rpi.gpio, python3-smbus
 Suggests: i2c-tools
-Description: python library designed to control Enviro pHAT.
+Description: Python library for the Pimoroni Enviro pHAT.
  Enviro pHAT is an affordable mix of sensors ideal for monitoring server rooms
  or anything you might want to observe. It also includes a 4-channel ADC,
  for adding sensors of your own.
