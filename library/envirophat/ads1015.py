@@ -65,10 +65,6 @@ class ads1015:
         data = self.i2c_bus.read_i2c_block_data(self.addr, REG_CONV)
 
         value = (data[0] << 4) |  (data[1] >> 4)
-
-        if value & 0x800:
-            value -= 1 << 2
-
         value /= 2047.0
         value *= float(programmable_gain)
 
