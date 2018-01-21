@@ -5,7 +5,7 @@ import time
 from envirophat import weather, leds
 
 
-print("""This example will detect motion using the accelerometer.
+print("""Light the LEDs upon temperature increase.
 
 Press Ctrl+C to exit.
 
@@ -20,7 +20,7 @@ try:
         if threshold is None:
             threshold = temperature + 2
 
-        print("{} degrees celcius".format(temperature))
+        print("{} degrees Celsius".format(temperature))
         if temperature > threshold:
             leds.on()
         else:
