@@ -5,6 +5,7 @@ import time
 
 from envirophat import light, weather, motion, analog
 
+unit = 'hPa' # Pressure unit, can be either hPa (hectopascals) or Pa (pascals)
 
 def write(line):
     sys.stdout.write(line)
@@ -21,7 +22,7 @@ try:
 
         output = """
 Temp: {t}c
-Pressure: {p}Pa
+Pressure: {p}{unit}
 Light: {c}
 RGB: {r}, {g}, {b} 
 Heading: {h}
@@ -30,8 +31,9 @@ Accelerometer: {ax}g {ay}g {az}g
 Analog: 0: {a0}, 1: {a1}, 2: {a2}, 3: {a3}
 
 """.format(
+        unit = unit,
         t = round(weather.temperature(),2),
-        p = round(weather.pressure(),2),
+        p = round(weather.pressure(unit=unit),2),
         c = light.light(),
         r = rgb[0],
         g = rgb[1],

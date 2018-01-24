@@ -5,6 +5,9 @@ import time
 
 ADDR=0x77
 
+UNIT_PA = "Pa"
+UNIT_HPA = "hPa"
+
 # this value is necessary to calculate the correct height above sealevel
 # its also included in airport weather information ATIS named as QNH
 # unit is hPa
@@ -149,11 +152,22 @@ class bmp280:
         self.update()
         return self._temperature
 
-    def pressure(self):
-        """Return the current air pressure."""
+    def pressure(self, unit=None):
+        """Return the current air pressure.
+
+        :param unit: String denoting unit scale to return. Value values: 'Pa' and 'hPa'
+
+        """
+
+        if unit is None:
+            unit = "Pa"
 
         self.update()
-        return self._pressure
+
+        if unit.lower() == "hpa":
+            return self._pressure / 100.0
+        else:
+            return self._pressure
 
     def altitude(self, qnh=QNH):
         """Return the current approximate altitude.
