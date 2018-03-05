@@ -20,14 +20,22 @@ def whats_the_time():
 # triggers Hue. Replace the trigger word and tokens from your account.
 
 def turn_off():
-    requests.post("https://maker.ifttt.com/trigger/{TRIGGER_WORD}/with/key/{TOKEN_GOES_HERE}")
+    # Set your trigger word - e.g. "light" - and the IFTTT Webhook token below.
+    TRIGGER_WORD = "YOUR CHOSEN TRIGGER WORD GOES HERE"
+    TOKEN = "YOUR IFTTT TOKEN GOES HERE"
+
+    requests.post("https://maker.ifttt.com/trigger/{trigger_word}/with/key/{token}".format(trigger_word=TRIGGER_WORD, token=TOKEN))
     print("Lights off!")
 
 # The function to turn on the lights. Sends a webhook to IFTTT which                   
 # triggers Hue. Replace the trigger word and tokens from your account.
 
 def turn_on():
-    requests.post("https://maker.ifttt.com/trigger/{TRIGGER_WORD}/with/key/{TOKEN_GOES_HERE}")
+    # Set your trigger word - e.g. "dark" - and the IFTTT Webhook token below.
+    TRIGGER_WORD = "YOUR CHOSEN TRIGGER WORD GOES HERE"
+    TOKEN = "YOUR IFTTT TOKEN GOES HERE"
+
+    requests.post("https://maker.ifttt.com/trigger/{trigger_word}/with/key/{token}".format(trigger_word=TRIGGER_WORD, token=TOKEN))
     print("Lights on!")
 
 # Check the light level and determine whether the lights need to 
@@ -47,10 +55,14 @@ def average_lux():
 	      avg = light.light()
 	      collect_light_data.append(avg)
 	  time.sleep(1)
-    average_light = sum(collect_light_data[-10:]) / 10.0
+    # Take the last 45 data points taken over 60 seconds to calculate the average
+    average_light = sum(collect_light_data[-45:]) / 45.0
     now = whats_the_time()
-    print("{} {} {} {} {} {} {} {}.".format("Average over", collect_light_time, "seconds", "is:", average_light, "lux.", "Last checked at", now))
-    print("{} {} {} {}.".format("Waiting", "90", "seconds", "before trying again"))
+    print("Average over {collect_time} seconds is: {average} lux. Last checked at {time}".format(
+        collect_time=collect_light_time,
+        average=average_light,
+        time=now
+    ))
     return average_light
 
 try:
@@ -63,13 +75,13 @@ try:
 	# Get the average lux level first,
 	room_light = average_lux()
 	# Now check if the room is dark enough then turn on the lights.
-	if room_light < low and state != 1:
+	if room_light < low and not lights_on:
 	    turn_on()
-	    state = 1
-	# Or if it is bright enough, turn off the lights.
-	elif room_light > high and state == 1:
+	    lights_on = True
+	elif room_light > high and lights_on:
 	    turn_off()
-	    state = 0
+	    lights_on = False
+	print("Waiting {} seconds before trying again".format(period))
 	time.sleep(period)
 except KeyboardInterrupt:
     pass
