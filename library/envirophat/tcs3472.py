@@ -34,6 +34,12 @@ class tcs3472:
         if not hasattr(i2c_bus, "read_word_data") or not hasattr(i2c_bus, "write_byte_data"):
             raise TypeError("Object given for i2c_bus must implement read_word_data and write_byte_data")
 
+    def setup(self):
+        if self._is_setup:
+            return
+
+        self._is_setup = True
+
         self.i2c_bus.write_byte_data(ADDR, REG_ENABLE, REG_ENABLE_RGBC | REG_ENABLE_POWER)
         self.set_integration_time_ms(511.2)
 
@@ -47,6 +53,8 @@ class tcs3472:
             raise TypeError("Integration time must be between 2.4 and 612ms")
         self._atime = int(round(ms / 2.4))
         self._max_count = min(65535, (256 - self._atime) * 1024)
+
+        self.setup()
 
         self.i2c_bus.write_byte_data(ADDR, REG_ATIME, 256 - self._atime)
 
@@ -71,17 +79,16 @@ class tcs3472:
         return self.raw()[CH_CLEAR]
 
     def valid(self):
+        self.setup()
         return (self.i2c_bus.read_byte_data(ADDR, REG_STATUS) & 1) > 0
 
     def raw(self):
         """Return the raw red, green, blue and clear channels"""
-        #data = self.i2c_bus.read_i2c_block_data(ADDR, REG_CLEAR_L, 8)
-        #c = data[0] | (data[1] << 8)
-        #r = data[2] | (data[3] << 8)
-        #g = data[4] | (data[5] << 8)
-        #b = data[6] | (data[7] << 8)
+        self.setup()
+
         c = self.i2c_bus.read_word_data(ADDR, REG_CLEAR_L)
         r = self.i2c_bus.read_word_data(ADDR, REG_RED_L)
         g = self.i2c_bus.read_word_data(ADDR, REG_GREEN_L)
         b = self.i2c_bus.read_word_data(ADDR, REG_BLUE_L)
+
         return (r, g, b, c)
