@@ -140,7 +140,7 @@ class bmp280(object):
         """
 
         if unit is None:
-            unit = "hPa"
+            unit = "Pa"
 
         self.update()
 
