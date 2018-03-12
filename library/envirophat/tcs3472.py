@@ -29,6 +29,7 @@ CH_CLEAR = 3
 
 class tcs3472:
     def __init__(self, i2c_bus=None, addr=ADDR):
+        self._is_setup = False
         self.addr = addr
         self.i2c_bus = i2c_bus
         if not hasattr(i2c_bus, "read_word_data") or not hasattr(i2c_bus, "write_byte_data"):

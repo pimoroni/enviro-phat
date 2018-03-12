@@ -20,6 +20,7 @@ PGA_0_256V = 256
 
 class ads1015:
     def __init__(self, i2c_bus=None, addr=ADDR):
+        self._is_setup = False
         self._over_voltage = [False] * 4
 
         self.i2c_bus = i2c_bus
