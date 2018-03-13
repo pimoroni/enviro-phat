@@ -81,7 +81,6 @@ def twos_comp(val, bits):
     if val&(1<<(bits-1)) != 0:
         val = val - (1<<bits)
     return val
-#   return val if val < 32768 else val - 65536
 
 class vector:
     def __init__(self, x, y=None, z=None):
@@ -111,10 +110,19 @@ class lsm303d:
 
     def __init__(self, i2c_bus=None, addr=ADDR):
         self.i2c_bus = i2c_bus
+        
         if not hasattr(i2c_bus, "write_byte_data") or not hasattr(i2c_bus, "read_byte_data"):
             raise TypeError("Object given for i2c_bus must implement write_byte_data and read_byte_data methods")
 
         self.addr = addr
+
+        self._is_setup = False
+
+    def setup(self):
+        if self._is_setup:
+            return
+
+        self._is_setup = True
 
         whoami = self.i2c_bus.read_byte_data(self.addr, WHO_AM_I)
 
@@ -134,6 +142,8 @@ class lsm303d:
 
         The returned vector will have properties x, y and z.
         """
+        self.setup()
+
         self._mag[X] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_X_H_M) << 8 | 
                           self.i2c_bus.read_byte_data(self.addr, OUT_X_L_M), 16)
         self._mag[Y] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_Y_H_M) << 8 | 
@@ -148,6 +158,8 @@ class lsm303d:
 
         The returned vector will have properties x, y and z.
         """
+        self.setup()
+
         accel = [0,0,0]
         accel[X] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_X_H_A) << 8 | 
                            self.i2c_bus.read_byte_data(self.addr, OUT_X_L_A), 16)
@@ -216,6 +228,7 @@ class lsm303d:
 
     def update(self):
         """Update both the accelerometer and magnetometer data."""
-        
+
         self.accelerometer()
         self.magnetometer()
+

@@ -1,8 +1,8 @@
 import time
 
 
-ADDR = 0x48
-ALT = 0x49
+ADDR = 0x49
+ALT = 0x48
 
 REG_CONV = 0x00
 REG_CFG = 0x01
@@ -20,6 +20,7 @@ PGA_0_256V = 256
 
 class ads1015:
     def __init__(self, i2c_bus=None, addr=ADDR):
+        self._is_setup = False
         self._over_voltage = [False] * 4
 
         self.i2c_bus = i2c_bus
@@ -27,15 +28,22 @@ class ads1015:
             raise TypeError("Object given for i2c_bus must implement write_i2c_block_data and read_i2c_block_data")
 
         self.addr = addr
-        self.max_voltage = 3300
-        self.default_gain = PGA_4_096V
-         
+        self.max_voltage = 5000
+        self.default_gain = PGA_6_144V
+
+    def setup(self):
+        if self._is_setup:
+            return
+        self._is_setup = True
+
+        # If a read fails to the addr for the 5v Enviro pHAT,
+        # switch over to the alternate address for old 3.3v
         try:
             self.i2c_bus.read_byte_data(self.addr, 0x00)
         except IOError:
             self.addr = ALT
-            self.max_voltage = 5000
-            self.default_gain = PGA_6_144V
+            self.max_voltage = 3300
+            self.default_gain = PGA_4_096V
 
     def read(self, channel=0, programmable_gain=None, samples_per_second=1600):
         """Read a specific ADC channel.
@@ -44,8 +52,11 @@ class ads1015:
         :param programmable_gain: Gain amount to use, one of 6144, 4096, 2048, 1024, 512 or 256 (default 4096 or 6144 depending on revision)
         :param samples_per_second: Samples per second, one of 128, 250, 498, 920, 1600, 2400, 3300 (default 1600)
         """
+        self.setup()
+
         if programmable_gain is None:
             programmable_gain = self.default_gain
+
         # sane defaults
         config = 0x0003 | 0x0100
 

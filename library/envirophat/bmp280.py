@@ -93,39 +93,19 @@ class signed_int(int):
             number -= 1 << bits
         return int.__new__(self, number)
 
-class bmp280:
+class bmp280(object):
     def __init__(self, i2c_bus=None, addr=ADDR):
+        object.__init__(self)
+
         self._temperature = 0
         self._pressure = 0
 
         self.addr = addr
         self.i2c_bus = i2c_bus
+        self._is_setup = False
 
-        if not hasattr(i2c_bus, "write_byte_data") or not hasattr(i2c_bus, "read_byte_data"):
+        if getattr(i2c_bus, "write_byte_data", None) is None or getattr(i2c_bus, "read_byte_data", None) is None:
             raise TypeError("Object given for i2c_bus must implement write_byte_data and read_byte_data methods")
-
-        if self._read_byte(REGISTER_CHIPID) == 0x58: # check sensor id 0x58=BMP280
-            self._write_byte(REGISTER_SOFTRESET,0xB6) # reset sensor
-            time.sleep(0.2) # little break
-            self._write_byte(REGISTER_CONTROL,CTRL_MEAS) #
-            time.sleep(0.2) # little break
-            self._write_byte(REGISTER_CONFIG,CONFIG)  #
-            time.sleep(0.2)
-
-            self.dig_T1 = self._read_unsigned_word(REGISTER_DIG_T1) # read correction settings
-            self.dig_T2 = self._read_signed_word(REGISTER_DIG_T2)
-            self.dig_T3 = self._read_signed_word(REGISTER_DIG_T3)
-            self.dig_P1 = self._read_unsigned_word(REGISTER_DIG_P1)
-            self.dig_P2 = self._read_signed_word(REGISTER_DIG_P2)
-            self.dig_P3 = self._read_signed_word(REGISTER_DIG_P3)
-            self.dig_P4 = self._read_signed_word(REGISTER_DIG_P4)
-            self.dig_P5 = self._read_signed_word(REGISTER_DIG_P5)
-            self.dig_P6 = self._read_signed_word(REGISTER_DIG_P6)
-            self.dig_P7 = self._read_signed_word(REGISTER_DIG_P7)
-            self.dig_P8 = self._read_signed_word(REGISTER_DIG_P8)
-            self.dig_P9 = self._read_signed_word(REGISTER_DIG_P9)
-        else:
-            raise IOError("bmp280 not found on address {:x}".format(self.addr))
 
     def _write_byte(self, register, value):
         self.i2c_bus.write_byte_data(self.addr, register, value)
@@ -183,6 +163,32 @@ class bmp280:
         This function is called automatically when calling temperature() or pressure().
         
         """
+        if not self._is_setup:
+            if self._read_byte(REGISTER_CHIPID) == 0x58: # check sensor id 0x58=BMP280
+                self._write_byte(REGISTER_SOFTRESET,0xB6) # reset sensor
+                time.sleep(0.2) # little break
+                self._write_byte(REGISTER_CONTROL,CTRL_MEAS) #
+                time.sleep(0.2) # little break
+                self._write_byte(REGISTER_CONFIG,CONFIG)  #
+                time.sleep(0.2)
+
+                self.dig_T1 = self._read_unsigned_word(REGISTER_DIG_T1) # read correction settings
+                self.dig_T2 = self._read_signed_word(REGISTER_DIG_T2)
+                self.dig_T3 = self._read_signed_word(REGISTER_DIG_T3)
+                self.dig_P1 = self._read_unsigned_word(REGISTER_DIG_P1)
+                self.dig_P2 = self._read_signed_word(REGISTER_DIG_P2)
+                self.dig_P3 = self._read_signed_word(REGISTER_DIG_P3)
+                self.dig_P4 = self._read_signed_word(REGISTER_DIG_P4)
+                self.dig_P5 = self._read_signed_word(REGISTER_DIG_P5)
+                self.dig_P6 = self._read_signed_word(REGISTER_DIG_P6)
+                self.dig_P7 = self._read_signed_word(REGISTER_DIG_P7)
+                self.dig_P8 = self._read_signed_word(REGISTER_DIG_P8)
+                self.dig_P9 = self._read_signed_word(REGISTER_DIG_P9)
+            else:
+                raise IOError("bmp280 not found on address {:x}".format(self.addr))
+
+            self._is_setup = True
+
         raw_temp_msb=self._read_byte(REGISTER_TEMPDATA_MSB) # read raw temperature msb
         raw_temp_lsb=self._read_byte(REGISTER_TEMPDATA_LSB) # read raw temperature lsb
         raw_temp_xlsb=self._read_byte(REGISTER_TEMPDATA_XLSB) # read raw temperature xlsb
@@ -212,3 +218,4 @@ class bmp280:
 
         self._temperature = temp
         self._pressure = press
+
