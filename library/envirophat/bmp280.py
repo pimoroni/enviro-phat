@@ -8,10 +8,12 @@ ADDR=0x77
 UNIT_PA = "Pa"
 UNIT_HPA = "hPa"
 
-# this value is necessary to calculate the correct height above sealevel
+# This value is necessary to calculate the correct height above sealevel
 # its also included in airport weather information ATIS named as QNH
-# unit is hPa
-QNH=1020
+# The default is equivilent to the air pressure at mean sea level
+# in the International Standard Atmosphere (ISA).
+# See: https://en.wikipedia.org/wiki/Pressure_altitude
+QNH=1013.25 # hpA
 
 # power mode
 # POWER_MODE=0 # sleep mode

@@ -21,8 +21,9 @@ try:
         acc_values = [round(x,2) for x in motion.accelerometer()]
 
         output = """
-Temp: {t}c
-Pressure: {p}{unit}
+Temp: {t:.2}c
+Pressure: {p:.2f}{unit}
+Altitude: {a:.2f}m
 Light: {c}
 RGB: {r}, {g}, {b} 
 Heading: {h}
@@ -32,8 +33,9 @@ Analog: 0: {a0}, 1: {a1}, 2: {a2}, 3: {a3}
 
 """.format(
         unit = unit,
-        t = round(weather.temperature(),2),
-        p = round(weather.pressure(unit=unit),2),
+        a = weather.altitude(), # Supply your local qnh for more accurate readings
+        t = weather.temperature(),
+        p = weather.pressure(unit=unit),
         c = light.light(),
         r = rgb[0],
         g = rgb[1],
