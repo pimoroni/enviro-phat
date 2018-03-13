@@ -1,3 +1,12 @@
+envirophat (1.0.0) stable; urgency=low
+
+  * Fix: Defer setup to avoid import side-effects
+  * Fix: QNH changed to 1013.25 ISA standard
+  * Tweak: New Enviro pHAT I2C addr now default
+  * Added: unit argument to pressure to choose Pa or hPa
+
+ -- Phil Howard <phil@pimoroni.com>  Tue, 13 Mar 2018 00:00:00 +0000
+
 envirophat (0.0.6) stable; urgency=low
 
   * Added __version__ to module
