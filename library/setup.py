@@ -43,7 +43,7 @@ setup(
     author          = 'Philip Howard',
     author_email    = 'phil@pimoroni.com',
     description     = 'Enviro pHAT Driver',
-    long_description= open('README.txt').read() + open('CHANGELOG.txt').read(),
+    long_description= open('README.rst').read() + "\n" + open('CHANGELOG.txt').read(),
     license         = 'MIT',
     keywords        = 'Raspberry Pi IoT Weather',
     url             = 'http://www.pimoroni.com',

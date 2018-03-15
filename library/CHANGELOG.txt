@@ -2,8 +2,7 @@
 -----
 
 * Fix: Defer setup to avoid import side-effects
-013.2
------
+* Fix: QNH changed to ISA standard
 * Tweak: New Enviro pHAT I2C addr now default
 * Added: unit argument to pressure to choose Pa or hPa
 
