@@ -166,7 +166,8 @@ class bmp280(object):
         
         """
         if not self._is_setup:
-            if self._read_byte(REGISTER_CHIPID) == 0x58: # check sensor id 0x58=BMP280
+            id = self._read_byte(REGISTER_CHIPID)
+            if id in [0x58, 0x60]: # check sensor id 0x58=BMP280, 0x60=BME280
                 self._write_byte(REGISTER_SOFTRESET,0xB6) # reset sensor
                 time.sleep(0.2) # little break
                 self._write_byte(REGISTER_CONTROL,CTRL_MEAS) #
@@ -187,7 +188,7 @@ class bmp280(object):
                 self.dig_P8 = self._read_signed_word(REGISTER_DIG_P8)
                 self.dig_P9 = self._read_signed_word(REGISTER_DIG_P9)
             else:
-                raise IOError("bmp280 not found on address {:x}".format(self.addr))
+                raise IOError("bmp280 not found on address {:x} (ID found: {:x})".format(self.addr, id))
 
             self._is_setup = True
 
