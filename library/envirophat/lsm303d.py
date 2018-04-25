@@ -144,8 +144,8 @@ class lsm303d:
         """
         self.setup()
 
-        return twos_comp((self.i2c_bus.read_byte_data(self.addr, TEMP_OUT_H) << 8) | 
-                          self.i2c_bus.read_byte_data(self.addr, TEMP_OUT_L), 12)
+        # in order to read multiple bytes the high bit of the sub address must be asserted
+        return twos_comp(self.i2c_bus.read_word_data(self.addr, TEMP_OUT_L|0x80), 12)
 
     def magnetometer(self):
         """Read the magnetomter and return the raw x, y and z magnetic readings as a vector.
@@ -154,12 +154,10 @@ class lsm303d:
         """
         self.setup()
 
-        self._mag[X] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_X_H_M) << 8 | 
-                          self.i2c_bus.read_byte_data(self.addr, OUT_X_L_M), 16)
-        self._mag[Y] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_Y_H_M) << 8 | 
-                          self.i2c_bus.read_byte_data(self.addr, OUT_Y_L_M), 16)
-        self._mag[Z] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_Z_H_M) << 8 | 
-                          self.i2c_bus.read_byte_data(self.addr, OUT_Z_L_M), 16)
+        # in order to read multiple bytes the high bit of the sub address must be asserted
+        self._mag[X] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_X_L_M|0x80), 16)
+        self._mag[Y] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_Y_L_M|0x80), 16)
+        self._mag[Z] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_Z_L_M|0x80), 16)
 
         return vector(self._mag)
 
@@ -171,12 +169,10 @@ class lsm303d:
         self.setup()
 
         accel = [0,0,0]
-        accel[X] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_X_H_A) << 8 | 
-                           self.i2c_bus.read_byte_data(self.addr, OUT_X_L_A), 16)
-        accel[Y] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_Y_H_A) << 8 | 
-                           self.i2c_bus.read_byte_data(self.addr, OUT_Y_L_A), 16)
-        accel[Z] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_Z_H_A) << 8 | 
-                           self.i2c_bus.read_byte_data(self.addr, OUT_Z_L_A), 16)
+        # in order to read multiple bytes the high bit of the sub address must be asserted
+        accel[X] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_X_L_A|0x80), 16)
+        accel[Y] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_Y_L_A|0x80), 16)
+        accel[Z] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_Z_L_A|0x80), 16)
 
         for i in range(X, Z+1):
             self._accel[i] = accel[i] / math.pow(2, 15) * ACCEL_SCALE
