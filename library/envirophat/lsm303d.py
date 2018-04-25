@@ -79,7 +79,7 @@ Z = 2
 def twos_comp(val, bits):
     # Calculate the 2s complement of int:val #
     if val&(1<<(bits-1)) != 0:
-        val = val - (1<<bits)
+        val = (val&((1<<bits)-1)) - (1<<bits)
     return val
 
 class vector:
@@ -131,11 +131,21 @@ class lsm303d:
             self.i2c_bus.write_byte_data(self.addr, CTRL_REG2, (3<<6)|(0<<3)) # set full scale +/- 2g
             self.i2c_bus.write_byte_data(self.addr, CTRL_REG3, 0x00) # no interrupt
             self.i2c_bus.write_byte_data(self.addr, CTRL_REG4, 0x00) # no interrupt
-            self.i2c_bus.write_byte_data(self.addr, CTRL_REG5, (4<<2)) # 0x10 = mag 50Hz output rate
+            self.i2c_bus.write_byte_data(self.addr, CTRL_REG5, 0x80|(4<<2)) # 0x10 = mag 50Hz output rate. 0x80 = enable temperature sensor
             self.i2c_bus.write_byte_data(self.addr, CTRL_REG6, MAG_SCALE_2) # Magnetic Scale +/1 1.3 Guass
             self.i2c_bus.write_byte_data(self.addr, CTRL_REG7, 0x00) # 0x00 continuous conversion mode
         else:
             raise IOError("No lsm303d detected")
+
+    def temperature(self):
+        """Read the temperature sensor and return the raw value in units of 1/8th degrees C.
+
+        This is an uncalibrated relative temperature.
+        """
+        self.setup()
+
+        return twos_comp((self.i2c_bus.read_byte_data(self.addr, TEMP_OUT_H) << 8) | 
+                          self.i2c_bus.read_byte_data(self.addr, TEMP_OUT_L), 12)
 
     def magnetometer(self):
         """Read the magnetomter and return the raw x, y and z magnetic readings as a vector.
