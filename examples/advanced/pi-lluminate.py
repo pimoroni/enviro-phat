@@ -54,7 +54,7 @@ def average_lux():
 	      curr_time = time.time()
 	      avg = light.light()
 	      collect_light_data.append(avg)
-	  time.sleep(1)
+	      time.sleep(1)
     # Take the last 45 data points taken over 60 seconds to calculate the average
     average_light = sum(collect_light_data[-45:]) / 45.0
     now = whats_the_time()
@@ -77,10 +77,10 @@ try:
 	# Now check if the room is dark enough then turn on the lights.
 	if room_light < low and not lights_on:
 	    turn_on()
-	    lights_on = True
+	    turn_on = True
 	elif room_light > high and lights_on:
 	    turn_off()
-	    lights_on = False
+	    turn_on = False
 	print("Waiting {} seconds before trying again".format(period))
 	time.sleep(period)
 except KeyboardInterrupt:
