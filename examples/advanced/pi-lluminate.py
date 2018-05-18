@@ -67,20 +67,20 @@ def average_lux():
 
 try:
     # Local variables.
-    state = 0	# Sets the state for the lights.
     low = 260	# Low value for light level (lux).
     high = 300	# High value for light level (lux).
     period = 90	# Delay, in seconds, between calls.
+    lights_on = False # Set the state of the lights to off.
     while True:
 	# Get the average lux level first,
 	room_light = average_lux()
 	# Now check if the room is dark enough then turn on the lights.
 	if room_light < low and not lights_on:
 	    turn_on()
-	    turn_on = True
+	    lights_on = True
 	elif room_light > high and lights_on:
 	    turn_off()
-	    turn_on = False
+	    lights_on = False
 	print("Waiting {} seconds before trying again".format(period))
 	time.sleep(period)
 except KeyboardInterrupt:
