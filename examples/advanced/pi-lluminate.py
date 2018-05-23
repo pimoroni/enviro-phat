@@ -54,7 +54,7 @@ def average_lux():
 	      curr_time = time.time()
 	      avg = light.light()
 	      collect_light_data.append(avg)
-	  time.sleep(1)
+	      time.sleep(1)
     # Take the last 45 data points taken over 60 seconds to calculate the average
     average_light = sum(collect_light_data[-45:]) / 45.0
     now = whats_the_time()
@@ -67,10 +67,10 @@ def average_lux():
 
 try:
     # Local variables.
-    state = 0	# Sets the state for the lights.
     low = 260	# Low value for light level (lux).
     high = 300	# High value for light level (lux).
     period = 90	# Delay, in seconds, between calls.
+    lights_on = False # Set the state of the lights to off.
     while True:
 	# Get the average lux level first,
 	room_light = average_lux()
