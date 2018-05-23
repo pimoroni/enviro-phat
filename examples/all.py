@@ -21,7 +21,7 @@ try:
         acc_values = [round(x,2) for x in motion.accelerometer()]
 
         output = """
-Temp: {t:.2}c
+Temp: {t:.2f}c
 Pressure: {p:.2f}{unit}
 Altitude: {a:.2f}m
 Light: {c}

@@ -79,7 +79,7 @@ Z = 2
 def twos_comp(val, bits):
     # Calculate the 2s complement of int:val #
     if val&(1<<(bits-1)) != 0:
-        val = val - (1<<bits)
+        val = (val&((1<<bits)-1)) - (1<<bits)
     return val
 
 class vector:
@@ -131,11 +131,21 @@ class lsm303d:
             self.i2c_bus.write_byte_data(self.addr, CTRL_REG2, (3<<6)|(0<<3)) # set full scale +/- 2g
             self.i2c_bus.write_byte_data(self.addr, CTRL_REG3, 0x00) # no interrupt
             self.i2c_bus.write_byte_data(self.addr, CTRL_REG4, 0x00) # no interrupt
-            self.i2c_bus.write_byte_data(self.addr, CTRL_REG5, (4<<2)) # 0x10 = mag 50Hz output rate
+            self.i2c_bus.write_byte_data(self.addr, CTRL_REG5, 0x80|(4<<2)) # 0x10 = mag 50Hz output rate. 0x80 = enable temperature sensor
             self.i2c_bus.write_byte_data(self.addr, CTRL_REG6, MAG_SCALE_2) # Magnetic Scale +/1 1.3 Guass
             self.i2c_bus.write_byte_data(self.addr, CTRL_REG7, 0x00) # 0x00 continuous conversion mode
         else:
             raise IOError("No lsm303d detected")
+
+    def temperature(self):
+        """Read the temperature sensor and return the raw value in units of 1/8th degrees C.
+
+        This is an uncalibrated relative temperature.
+        """
+        self.setup()
+
+        # in order to read multiple bytes the high bit of the sub address must be asserted
+        return twos_comp(self.i2c_bus.read_word_data(self.addr, TEMP_OUT_L|0x80), 12)
 
     def magnetometer(self):
         """Read the magnetomter and return the raw x, y and z magnetic readings as a vector.
@@ -144,12 +154,9 @@ class lsm303d:
         """
         self.setup()
 
-        self._mag[X] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_X_H_M) << 8 | 
-                          self.i2c_bus.read_byte_data(self.addr, OUT_X_L_M), 16)
-        self._mag[Y] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_Y_H_M) << 8 | 
-                          self.i2c_bus.read_byte_data(self.addr, OUT_Y_L_M), 16)
-        self._mag[Z] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_Z_H_M) << 8 | 
-                          self.i2c_bus.read_byte_data(self.addr, OUT_Z_L_M), 16)
+        # in order to read multiple bytes the high bit of the sub address must be asserted
+        raw = self.i2c_bus.read_i2c_block_data(self.addr, OUT_X_L_M|0x80, 6)
+        self._mag = list(struct.unpack("<hhh", bytearray(raw)))
 
         return vector(self._mag)
 
@@ -160,13 +167,10 @@ class lsm303d:
         """
         self.setup()
 
-        accel = [0,0,0]
-        accel[X] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_X_H_A) << 8 | 
-                           self.i2c_bus.read_byte_data(self.addr, OUT_X_L_A), 16)
-        accel[Y] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_Y_H_A) << 8 | 
-                           self.i2c_bus.read_byte_data(self.addr, OUT_Y_L_A), 16)
-        accel[Z] = twos_comp(self.i2c_bus.read_byte_data(self.addr, OUT_Z_H_A) << 8 | 
-                           self.i2c_bus.read_byte_data(self.addr, OUT_Z_L_A), 16)
+        # in order to read multiple bytes the high bit of the sub address must be asserted
+        # so we |0x80 to enable register auto-increment
+        raw = self.i2c_bus.read_i2c_block_data(self.addr, OUT_X_L_A|0x80, 6)
+        accel = list(struct.unpack("<hhh", bytearray(raw)))
 
         for i in range(X, Z+1):
             self._accel[i] = accel[i] / math.pow(2, 15) * ACCEL_SCALE
