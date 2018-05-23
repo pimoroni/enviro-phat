@@ -155,9 +155,8 @@ class lsm303d:
         self.setup()
 
         # in order to read multiple bytes the high bit of the sub address must be asserted
-        self._mag[X] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_X_L_M|0x80), 16)
-        self._mag[Y] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_Y_L_M|0x80), 16)
-        self._mag[Z] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_Z_L_M|0x80), 16)
+        raw = self.i2c_bus.read_i2c_block_data(self.addr, OUT_X_L_M|0x80, 6)
+        self._mag = list(struct.unpack("<hhh", bytearray(raw)))
 
         return vector(self._mag)
 
@@ -168,11 +167,10 @@ class lsm303d:
         """
         self.setup()
 
-        accel = [0,0,0]
         # in order to read multiple bytes the high bit of the sub address must be asserted
-        accel[X] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_X_L_A|0x80), 16)
-        accel[Y] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_Y_L_A|0x80), 16)
-        accel[Z] = twos_comp(self.i2c_bus.read_word_data(self.addr, OUT_Z_L_A|0x80), 16)
+        # so we |0x80 to enable register auto-increment
+        raw = self.i2c_bus.read_i2c_block_data(self.addr, OUT_X_L_A|0x80, 6)
+        accel = list(struct.unpack("<hhh", bytearray(raw)))
 
         for i in range(X, Z+1):
             self._accel[i] = accel[i] / math.pow(2, 15) * ACCEL_SCALE
