@@ -20,7 +20,7 @@ try:
         readings.append(motion.accelerometer().z)
         readings = readings[-4:]
         z = sum(readings) / len(readings)
-        if last_z > 0 and abs(z-last_z) > threshold:
+        if last_z > 0 and abs(z - last_z) > threshold:
             print("Motion Detected!!!")
             leds.on()
         last_z = z
