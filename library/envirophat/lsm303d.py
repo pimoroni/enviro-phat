@@ -219,7 +219,7 @@ class lsm303d:
             if self._tilt_heading < 0:
                 self._tilt_heading += 2*math.pi
             if self._tilt_heading > 2*math.pi:
-                self._heading -= 2*math.pi
+                self._tilt_heading -= 2*math.pi
 
             self._tilt_heading_degrees = round(math.degrees(self._tilt_heading),2)
             return self._tilt_heading_degrees
