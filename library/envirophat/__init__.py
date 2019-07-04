@@ -6,7 +6,7 @@ from .lsm303d import lsm303d
 from .tcs3472 import tcs3472
 
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 leds = leds()
 light = tcs3472(bus)

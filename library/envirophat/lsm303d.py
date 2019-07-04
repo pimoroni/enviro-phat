@@ -110,7 +110,7 @@ class lsm303d:
 
     def __init__(self, i2c_bus=None, addr=ADDR):
         self.i2c_bus = i2c_bus
-        
+
         if not hasattr(i2c_bus, "write_byte_data") or not hasattr(i2c_bus, "read_byte_data"):
             raise TypeError("Object given for i2c_bus must implement write_byte_data and read_byte_data methods")
 

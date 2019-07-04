@@ -163,7 +163,7 @@ class bmp280(object):
         """Update stored temperature and pressure values.
 
         This function is called automatically when calling temperature() or pressure().
-        
+
         """
         if not self._is_setup:
             id = self._read_byte(REGISTER_CHIPID)

@@ -48,7 +48,7 @@ on Raspbian:
 sudo apt-get install python3-envirophat
 ```
 
-other environments: 
+other environments:
 
 ```bash
 sudo pip3 install envirophat
@@ -62,7 +62,7 @@ on Raspbian:
 sudo apt-get install python-envirophat
 ```
 
-other environments: 
+other environments:
 
 ```bash
 sudo pip2 install envirophat
