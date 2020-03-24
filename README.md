@@ -13,6 +13,8 @@ Enviro pHAT includes:
 * A 5v power supply pin for powering your sensors, which you can regulate or divide to 3v if needed
 * Two LEDs connected to GPIO #4 for illuminating objects over the colour sensor
 
+### Note: for Enviro and Enviro Plus see: https://github.com/pimoroni/enviroplus-python/
+
 ## Installing
 
 ### Full install (recommended):
